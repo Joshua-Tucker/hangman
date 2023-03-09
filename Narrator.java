@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Narrator {
 
 
-    public void greeting() {
+    public static void greeting() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Hi there! Would you like to play Hangman?");
         System.out.println("Enter Yes or No");
@@ -29,7 +29,7 @@ public class Narrator {
     }
 
 
-    public void firstRound(){
+    public static void firstRound(){
         System.out.println("Here is your first word...");
         System.out.println("3");
         System.out.println("2");

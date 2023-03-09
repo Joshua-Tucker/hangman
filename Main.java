@@ -6,17 +6,16 @@ public class Main {
 
 
         WordLibrary wordLibrary = new WordLibrary(wordsList);
-        Narrator narrator = new Narrator();
         Player player = new Player();
 
-        String underscoreRandomWord = wordLibrary.underscoreRandomWord();
+        String underscoreWord = wordLibrary.underscoreRandomWord();
         String hangmanWord = wordLibrary.getHangmanWord();
 
 
-        narrator.greeting();
-        narrator.firstRound();
-        System.out.println(underscoreRandomWord);
-        player.guess(hangmanWord);
+        Narrator.greeting();
+        Narrator.firstRound();
+        System.out.println(underscoreWord);
+        player.guess(hangmanWord, underscoreWord);
 
 
 
