@@ -17,6 +17,7 @@ public class Main {
         Narrator.firstRound();
         System.out.println(underscoreWord);
         player.guess(hangmanWord, underscoreWord);
+        player.displayLives();
         while (!player.getRevealedAnswer().equals(hangmanWord)) {
             Narrator.nextRound(player.getRevealedAnswer());
             player.nextGuess(hangmanWord);
@@ -25,8 +26,10 @@ public class Main {
                 System.out.println("Oh no, you ran out of lives! I'm sorry but the game is over");
                 break; // exit the loop if the player has run out of lives
             }
+            if (player.getRevealedAnswer().equals(hangmanWord)) {
+                System.out.println("Congratulations!! That's it, you've won the game!");
+            }
         }
-        System.out.println("Congratulations!! That's it, you've won the game!");
     }
 
 }

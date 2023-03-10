@@ -115,9 +115,11 @@ public class Player{
         for (String letter : splitCheck) {
             if (!(splitHangmanArr.contains(letter))) {
                 System.out.println("Sorry! One of those letters were wrong, (" + letter + ") was incorrect so you've lost a life:");
+                removeLife();
+            } else {
+                correctGuess(letter);
+                counterCorrectGuess(letter);
             }
-            correctGuess(letter);
-            counterCorrectGuess(letter);
         }
         System.out.println("Whoa you got " + counterGuess + " all right!");
         counterGuess.clear();
