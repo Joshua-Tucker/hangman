@@ -6,19 +6,17 @@ public class Main {
 
 
         WordLibrary wordLibrary = new WordLibrary(wordsList);
-        Player player = new Player(8);
-
         String underscoreWord = wordLibrary.underscoreRandomWord();
         String hangmanWord = wordLibrary.getHangmanWord();
+
+        Player player = new Player(8, underscoreWord);
+
 
 
         Narrator.greeting();
         Narrator.firstRound();
         System.out.println(underscoreWord);
         player.guess(hangmanWord, underscoreWord);
-        Narrator.nextRound(player.getRevealedAnswer());
-        player.nextGuess(hangmanWord);
-        player.displayLives();
         while (!player.getRevealedAnswer().equals(hangmanWord)) {
             Narrator.nextRound(player.getRevealedAnswer());
             player.nextGuess(hangmanWord);

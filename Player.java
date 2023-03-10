@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class Player {
+public class Player{
 
     public ArrayList<String> incorrectGuesses = new ArrayList<>();
     public ArrayList<String> allGuesses = new ArrayList<>();
@@ -16,8 +16,9 @@ public class Player {
 
     public int livesRemaining;
 
-    public Player(int livesRemaining) {
+    public Player(int livesRemaining, String revealedAnswer) {
         this.livesRemaining = livesRemaining;
+        this.revealedAnswer= revealedAnswer;
     }
 
 
@@ -38,22 +39,30 @@ public class Player {
 
         if (splitCheck.length > 1) {
             checkRevealMultiple(splitCheck);
+            addAllGuess(answer);
+
 
         } else if (hangmanWord.contains(answer)) {
             correctFirstGuess(answer);
+            addAllGuess(answer);
+
 
         } else if (!(answer.chars().allMatch(Character::isLetter))) {
-            addAllGuess(answer);
             System.out.println("Sorry! I don't recognise that, try another letter.");
+            addAllGuess(answer);
+
 
         } else if (allGuesses.contains(answer)) {
-            isRepeat(answer);
+            System.out.println("You've already used that one! Try a different letter!!");
 
         } else {
+            addAllGuess(answer);
             wrongGuess(answer);
             removeLife();
         }
     }
+
+
 
     public void removeLife() {
         setLivesRemaining(getLivesRemaining() - 1);
@@ -70,26 +79,21 @@ public class Player {
         String answer = scanner.nextLine().toLowerCase();
         String[] splitCheck = answer.split("");
 
-        try {
-            if (splitCheck.length > 1) {
-                checkRevealMultiple(splitCheck);
+        if (splitCheck.length > 1) {
+            checkRevealMultiple(splitCheck);
+            addAllGuess(answer);
 
-            } else if (hangmanWord.contains(answer) && (!(allGuesses.contains(answer)))) {
-                correctFirstGuess(answer);
+        } else if (hangmanWord.contains(answer) && (!(allGuesses.contains(answer)))) {
+            correctFirstGuess(answer);
 
-            } else if (allGuesses.contains(answer)) {
-                isRepeat(answer);
+        } else if (allGuesses.contains(answer)) {
+            System.out.println("You've already used that one! Try a different letter!!");
 
-            } else if (!(answer.chars().allMatch(Character::isLetter))) {
-                addAllGuess(answer);
-                System.out.println("Sorry! I don't recognise that, try another letter.");
-            } else {
-                wrongGuess(answer);
-                removeLife();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else if (!(answer.chars().allMatch(Character::isLetter))) {
+            System.out.println("Sorry! I don't recognise that, try another letter.");
+        } else {
+            wrongGuess(answer);
+            removeLife();
         }
     }
 
@@ -127,25 +131,20 @@ public class Player {
     public void correctFirstGuess(String answer) {
         System.out.println("Yeah! That's right!");
         revealAnswer(splitHangmanArr, splitUnderscoreArr, answer);
-        addAllGuess(answer);
         isEmpty();
     }
 
     public void correctGuess(String answer) {
         revealAnswer(splitHangmanArr, splitUnderscoreArr, answer);
-        addAllGuess(answer);
         isEmpty();
     }
 
 
     public void wrongGuess(String answer) {
-        addAllGuess(answer);
         addIncorrectGuess(answer);
-        isRepeat(answer);
         System.out.println("Oh no! That's incorrect, you've lost a life");
         showIncorrectGuesses();
     }
-
 
 
     public void setSplitUnderscoreArr(ArrayList<String> splitUnderscoreArr) {
@@ -199,13 +198,6 @@ public class Player {
         }
     }
 
-    public void isRepeat(String answer) {
-        for (String letter : allGuesses) {
-            if (letter.contains(answer)) {
-                System.out.println("You've already used that one! Try a different letter!!");
-            }
-        }
-    }
 
     public void isEmpty() {
         if (incorrectGuesses.size() < 0) {
