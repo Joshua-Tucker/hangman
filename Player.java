@@ -4,18 +4,154 @@ import java.util.Scanner;
 
 public class Player {
 
-    ArrayList<String> incorrectGuesses = new ArrayList<>();
-    ArrayList<String> allGuesses = new ArrayList<>();
+    public ArrayList<String> incorrectGuesses = new ArrayList<>();
+    public ArrayList<String> allGuesses = new ArrayList<>();
 
-    ArrayList<String> splitHangmanArr = new ArrayList<>();
+    public ArrayList<String> counterGuess = new ArrayList<>();
+
+    public ArrayList<String> splitHangmanArr = new ArrayList<>();
+    public ArrayList<String> splitUnderscoreArr = new ArrayList<>();
+
+    public String revealedAnswer;
+
+    public int livesRemaining;
+
+    public Player(int livesRemaining) {
+        this.livesRemaining = livesRemaining;
+    }
+
+
+    public int getLivesRemaining() {
+        return livesRemaining;
+    }
+
+    public void setLivesRemaining(int livesRemaining) {
+        this.livesRemaining = livesRemaining;
+    }
+
+    public void guess(String hangmanWord, String underscoreWord) {
+        Scanner scanner = new Scanner(System.in);
+        String answer = scanner.nextLine().toLowerCase();
+        splitHangmanWord(hangmanWord);
+        splitUnderscore(underscoreWord);
+        String[] splitCheck = answer.split("");
+
+        if (splitCheck.length > 1) {
+            checkRevealMultiple(splitCheck);
+
+        } else if (hangmanWord.contains(answer)) {
+            correctFirstGuess(answer);
+
+        } else if (!(answer.chars().allMatch(Character::isLetter))) {
+            addAllGuess(answer);
+            System.out.println("Sorry! I don't recognise that, try another letter.");
+
+        } else if (allGuesses.contains(answer)) {
+            isRepeat(answer);
+
+        } else {
+            wrongGuess(answer);
+            removeLife();
+        }
+    }
+
+    public void removeLife() {
+        setLivesRemaining(getLivesRemaining() - 1);
+    }
+
+    public void displayLives() {
+        System.out.println("You have " + getLivesRemaining() + " lives remaining!");
+
+    }
+
+
+    public void nextGuess(String hangmanWord) {
+        Scanner scanner = new Scanner(System.in);
+        String answer = scanner.nextLine().toLowerCase();
+        String[] splitCheck = answer.split("");
+
+        try {
+            if (splitCheck.length > 1) {
+                checkRevealMultiple(splitCheck);
+
+            } else if (hangmanWord.contains(answer) && (!(allGuesses.contains(answer)))) {
+                correctFirstGuess(answer);
+
+            } else if (allGuesses.contains(answer)) {
+                isRepeat(answer);
+
+            } else if (!(answer.chars().allMatch(Character::isLetter))) {
+                addAllGuess(answer);
+                System.out.println("Sorry! I don't recognise that, try another letter.");
+            } else {
+                wrongGuess(answer);
+                removeLife();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String revealAnswer
+            (ArrayList<String> splitHangmanArr, ArrayList<String> splitUnderscoreArr, String answer) {
+        for (int i = 0; i < splitHangmanArr.size(); i++) {
+            if (splitHangmanArr.get(i).contains(answer)) {
+                splitUnderscoreArr.set(i, answer);
+                setSplitUnderscoreArr(splitUnderscoreArr);
+                String joinedUnderscore = String.join("", splitUnderscoreArr);
+                setRevealedAnswer(joinedUnderscore);
+            }
+        }
+        return getRevealedAnswer();
+    }
+
+
+    public void checkRevealMultiple(String[] splitCheck) {
+        for (String letter : splitCheck) {
+            if (!(splitHangmanArr.contains(letter))) {
+                System.out.println("Sorry! One of those letters were wrong, (" + letter + ") was incorrect so you've lost a life:");
+            }
+            correctGuess(letter);
+            counterCorrectGuess(letter);
+        }
+        System.out.println("Whoa you got " + counterGuess + " all right!");
+        counterGuess.clear();
+    }
+
+
+    public void counterCorrectGuess(String letter) {
+        counterGuess.add(letter);
+    }
+
+    public void correctFirstGuess(String answer) {
+        System.out.println("Yeah! That's right!");
+        revealAnswer(splitHangmanArr, splitUnderscoreArr, answer);
+        addAllGuess(answer);
+        isEmpty();
+    }
+
+    public void correctGuess(String answer) {
+        revealAnswer(splitHangmanArr, splitUnderscoreArr, answer);
+        addAllGuess(answer);
+        isEmpty();
+    }
+
+
+    public void wrongGuess(String answer) {
+        addAllGuess(answer);
+        addIncorrectGuess(answer);
+        isRepeat(answer);
+        System.out.println("Oh no! That's incorrect, you've lost a life");
+        showIncorrectGuesses();
+    }
+
+
 
     public void setSplitUnderscoreArr(ArrayList<String> splitUnderscoreArr) {
         this.splitUnderscoreArr = splitUnderscoreArr;
     }
 
-    ArrayList<String> splitUnderscoreArr = new ArrayList<>();
-
-    String revealedAnswer;
 
     public String getRevealedAnswer() {
         return revealedAnswer;
@@ -29,59 +165,32 @@ public class Player {
         incorrectGuesses.add(guess);
     }
 
+
     public void showIncorrectGuesses() {
         System.out.println("Your incorrect guesses so far...");
-        for (String guess : incorrectGuesses) {
-            System.out.println(guess);
-        }
-        ;
+        System.out.println(incorrectGuesses);
     }
 
-    public void guess(String hangmanWord, String underscoreWord) {
-        Scanner scanner = new Scanner(System.in);
-        String answer = scanner.nextLine().toLowerCase();
-        if (hangmanWord.contains(answer)) {
-            splitHangmanWord(hangmanWord);
-            splitUnderscore(underscoreWord);
-            System.out.println("Yeah! That's right!");
-            System.out.println(revealAnswer(splitHangmanArr, splitUnderscoreArr, answer));
-            showIncorrectGuesses();
-        } else {
-            addIncorrectGuess(answer);
-            System.out.println("Oh no! That's incorrect, you've lost a life");
-            showIncorrectGuesses();
-        }
+    public void addAllGuess(String guess) {
+        allGuesses.add(guess);
     }
 
-    public String revealAnswer(ArrayList<String> splitHangmanArr, ArrayList<String> splitUnderscoreArr,
-                             String guess) {
-        for (int i = 0; i < splitHangmanArr.size(); i++) {
-            ;//loops through hangman arr
-            if (splitHangmanArr.get(i).contains(guess)) { //if anything in this array is the same as the guess
-                int correctLetterIndex = i; //then let us know where in the array it is
-                splitUnderscoreArr.set(correctLetterIndex, guess);
-                setSplitUnderscoreArr(splitUnderscoreArr);                //then go grab the same index in underscore array and replace that with the correct letter
-                //add correct letter to orginal array
-                String joinedUnderscore = String.join("", splitUnderscoreArr);//join the new undewrscore array
-                setRevealedAnswer(joinedUnderscore);
-            }
-        }return getRevealedAnswer();
-    }
-
-    public void addSplit(String letters) {
+    public void addSplitHangman(String letters) {
         splitHangmanArr.add(letters);
     }
 
     public void splitHangmanWord(String hangmanWord) {
         String[] splitWordArray = hangmanWord.split("");
         for (String letter : splitWordArray) {
-            addSplit(letter);
+            addSplitHangman(letter);
         }
     }
+
 
     public void addSplitUnderscore(String underscores) {
         splitUnderscoreArr.add(underscores);
     }
+
 
     public void splitUnderscore(String underscoreWord) {
         String[] splitWordArray = underscoreWord.split("");
@@ -90,25 +199,25 @@ public class Player {
         }
     }
 
+    public void isRepeat(String answer) {
+        for (String letter : allGuesses) {
+            if (letter.contains(answer)) {
+                System.out.println("You've already used that one! Try a different letter!!");
+            }
+        }
+    }
 
-    //hangman word and underscore word are the same
-    //hangman word is visable underscore is not
-    //method to say
-    // if (guess.contains(answer){
-
-    //hangmanword=> broken into character array (split)
-
-    //for loop over array and get the index number of correct letter
-    //e.g hangmanword=dog
-    //guess=o, for each to return index 1(o)
-    //then replace index of underscore with index1(o)
-
-    //what do i need to add?
-    //arraylist of all guesses
-    //arraylist of split hangman word
-    //varible of new underscoreword with added correct guesses (global and set each time correct)
-    //to show new underscore
-
+    public void isEmpty() {
+        if (incorrectGuesses.size() < 0) {
+            showIncorrectGuesses();
+        }
+    }
 
 }
+
+
+
+
+
+
 

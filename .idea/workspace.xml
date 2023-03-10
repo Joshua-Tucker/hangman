@@ -5,10 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="09e9566b-1ef0-4945-ab93-511bd7ebd992" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Commands.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GameEngine.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Narrator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Narrator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WordLibrary.java" beforeDir="false" afterPath="$PROJECT_DIR$/WordLibrary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/hangman/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/hangman/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/hangman/Narrator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/hangman/Narrator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/hangman/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/hangman/Player.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/hangman/WordLibrary.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/hangman/WordLibrary.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,15 +88,10 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/Main.java</url>
-          <line>2</line>
-          <properties class="Main" method="main">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="12" />
+        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
