@@ -27,8 +27,9 @@ public class Main {
                 break; // exit the loop if the player has run out of lives
             }
             if (player.getRevealedAnswer().equals(hangmanWord)) {
-                System.out.println("Congratulations!! That's it, you've won the game!");
+                System.out.println("Congratulations!! That's it, you've won the game with " + player.getLivesRemaining() + " lives left!");
             }
+
         }
     }
 

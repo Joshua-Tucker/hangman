@@ -26,7 +26,6 @@ public class WordLibrary {
     public String underscoreRandomWord() {
         setHangmanWord(words[(int) (Math.random() * words.length)]);
         String underscoreWord = hangmanWord.replaceAll("[a-zA-Z]", "_");
-        System.out.println(hangmanWord);
         return underscoreWord;
     }
 

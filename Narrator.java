@@ -10,6 +10,7 @@ public class Narrator {
         String answer = scanner.nextLine().toLowerCase();
         if (answer.contains("yes")) {
             System.out.println("Great! Let's begin!");
+            System.out.println("To start, you have 8 lives, every wrong answer deducts one. Be careful!!");
         } else {
             System.out.println("Okay:( Do you need some time?");
             System.out.println("Enter Yes or No");
