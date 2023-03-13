@@ -1,1 +1,3 @@
-# hangman
+Hangman
+
+Please use master branch
